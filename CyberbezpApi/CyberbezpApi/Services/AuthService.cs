@@ -135,7 +135,7 @@ namespace CyberbezpApi.Services
 
             await _userManager.ResetAccessFailedCountAsync(user);
 
-            var t = GenerateJWT(user, userRoles.ToList());
+            var t = GenerateJWT(user, userRoles[0]);
 
             if (user.LastPasswordChangedDate.AddDays(PasswordExpirationTime) < DateTime.Now)
                 t.hasPasswordExpired = true;
@@ -152,7 +152,7 @@ namespace CyberbezpApi.Services
             return new JwtSecurityTokenHandler().ReadToken(token).ValidTo;
         }
 
-        public ResponseTokenDto GenerateJWT(User userInfo, List<string> userRoles)
+        public ResponseTokenDto GenerateJWT(User userInfo, string userRole)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -165,10 +165,7 @@ namespace CyberbezpApi.Services
                  new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
             };
 
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-            }
+            claims.Add(new Claim(ClaimTypes.Role, userRole));
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {

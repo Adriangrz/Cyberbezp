@@ -60,16 +60,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>(
     opts =>
     {
+        opts.Password.RequireNonAlphanumeric = false;
+        opts.Password.RequireUppercase = false;
+        opts.Password.RequiredLength = 1;
+        opts.Password.RequireDigit = false;
+        opts.Password.RequireLowercase = false;
+        opts.Password.RequiredUniqueChars = 0;
         opts.SignIn.RequireConfirmedAccount = false; //development
-
-        opts.Password.RequireDigit = true;
-        opts.Password.RequiredLength = 14;
 
         opts.User.RequireUniqueEmail = true;
         opts.User.AllowedUserNameCharacters = "Aa•πBbCc∆ÊDdEe ÍFfGgHhIiJjKkLl£≥MmNn—ÒOo”ÛPpQqRrSsåúTtUuvWwxYyZzèüØø0123456789-._@+/!#$%^&*~`?|/=";
 
-        opts.Lockout.MaxFailedAccessAttempts = 3;
-        opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -85,15 +86,9 @@ builder.Services.AddAuthentication(options =>
     options.RequireHttpsMetadata = false; //false only in development
     options.TokenValidationParameters = new TokenValidationParameters()
     {
-        RequireExpirationTime = true,
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:SecretKey"])),
-        ClockSkew = TimeSpan.Zero
     };
 });
 // Add services to the container.
@@ -139,6 +134,7 @@ void SeedData(IHost app)
     }
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

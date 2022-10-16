@@ -11,6 +11,7 @@ namespace CyberbezpApi.Mapping
             CreateMap<LoginDto, RequestTokenDto>();
             CreateMap<RegistrationDto, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Name));
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

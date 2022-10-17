@@ -42,7 +42,7 @@ namespace CyberbezpApi.Database
 
             if (await _userManager.FindByNameAsync(admin.UserName) == null)
             {
-                await _userManager.CreateAsync(admin, "Pass4Admin!");
+                await _userManager.CreateAsync(admin, "Pass4Admin!123");
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(admin);
                 await _userManager.ConfirmEmailAsync(admin, code);
                 await _userManager.AddToRoleAsync(admin, adminRole);

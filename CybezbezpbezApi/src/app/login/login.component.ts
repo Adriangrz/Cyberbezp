@@ -33,11 +33,11 @@ export class LoginComponent implements OnInit {
     })
     .subscribe({
       next: () => {
-        console.log(this.authService.getJwtToken());
-        console.log(this.authService.getRole());
-        console.log(this.authService.getLoggedInUser);
+        this.isLoggedIn=true;
+        this.roles.push(this.authService.getRole()!);
       },
       error: (err) => {
+        this.isLoginFailed=true;
         this.errorMessage = err;
       },
     });

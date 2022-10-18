@@ -141,6 +141,7 @@ namespace CyberbezpApi.Services
                 t.hasPasswordExpired = true;
 
             t.IsFirstLogin = user.IsFirstLogin;
+            t.Role = userRoles[0];
             return t;
 
         }

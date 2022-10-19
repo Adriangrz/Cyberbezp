@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ResponseToken } from './response-token.interface';
 import { LoginData } from './login-data.interface';
 import { RegistrationData } from './registration-data.interface';
+import { ChangePassword } from './change-password.interface';
 
 const AUTH_API = 'https://localhost:7222/api/Authentication/';
 
@@ -32,6 +33,14 @@ export class AuthService {
     return this.http
       .post<RegistrationData>('/api/Authentication/Register', {
         ...registrationData,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  changePassword(changePassword: ChangePassword) {
+    return this.http
+      .post<ChangePassword>('/api/Authentication/ChangePassword', {
+        ...changePassword,
       })
       .pipe(catchError(this.handleError));
   }

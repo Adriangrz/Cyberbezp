@@ -16,7 +16,26 @@
   </ul>
 </div>
 <div>
-  <button nz-button nzType="primary" [routerLink]="['/register']">Primary</button>
+  <button *ngIf="currentUserRoleAdmin" nz-button nzType="primary" nzDanger [routerLink]="['/register']">Dodaj użytkownika</button>
+</div>
+<div class = "password-container">
+  <nz-input-group>
+    <input
+      [type]="passwordVisible ? 'text' : 'password'"
+      nz-input
+      placeholder="Wprowadź stare hasło"
+      [(ngModel)]="form.oldPassword"
+    />
+  </nz-input-group>
+  <nz-input-group>
+    <input
+      [type]="passwordVisible ? 'text' : 'password'"
+      nz-input
+      placeholder="Wprowadź nowe hasło"
+      [(ngModel)]="form.newPassword"
+    />
+  </nz-input-group>
+  <button nz-button nzType="primary">Zmień hasło</button>
 </div>
 <ng-template #loggedOut>
   Please login.

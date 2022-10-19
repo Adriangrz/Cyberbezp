@@ -15,6 +15,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzFormModule,
     NzTableModule,
     NzButtonModule,
+    NzInputModule,
+
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

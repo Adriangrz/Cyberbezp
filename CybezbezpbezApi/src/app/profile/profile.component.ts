@@ -15,6 +15,9 @@ export class ProfileComponent implements OnInit {
     oldPassword: null,
     newPassword: null,
   };
+  passwordLengthForm: any = {
+    length: 1,
+  };
   currentUserMail: any;
   currentUserRole: any;
   currentUserRoleAdmin = false;
@@ -23,6 +26,10 @@ export class ProfileComponent implements OnInit {
   passwordVisible = false;
   passwordChange: ChangePassword | undefined;
   isLoggedIn = false;
+  passwordError: string| undefined;
+  passwordMessage: string| undefined;
+  lengthError: string| undefined;
+  lengthMessage: string| undefined;
 
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private router: Router) { }
@@ -37,19 +44,36 @@ export class ProfileComponent implements OnInit {
     this.currentUserRoleAdmin = false;
   }
   save(): void {
+    console.log(this.form);
     this.authService
-    .login({
-      ...this.form
+    .changePassword({
+      ...this.form,
+      email:this.authService.getLoggedInUser
     })
     .subscribe({
       next: () => {
-        this.isLoggedIn=true;
-        this.roles.push(this.authService.getRole()!);
-        this.router.navigateByUrl('/profile')
+        this.passwordMessage="Hasło zastało zmienione";
       },
       error: (err) => {
-        this.isLoginFailed=true;
-        this.errorMessage = err;
+        this.passwordError = err;
+      },
+    });
+  }
+
+  changeRequirePasswordLength(){
+    console.log(this.passwordLengthForm);
+    if(this.passwordLengthForm.length<1){
+      this.lengthError = "Za mała długość"
+      return;
+    }
+    this.authService
+    .changeRequirePasswordLength(this.passwordLengthForm.length)
+    .subscribe({
+      next: () => {
+        this.lengthMessage="Długość zastała zmienione";
+      },
+      error: (err) => {
+        this.lengthError = err;
       },
     });
   }

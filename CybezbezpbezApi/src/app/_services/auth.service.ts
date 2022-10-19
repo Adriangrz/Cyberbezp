@@ -58,6 +58,12 @@ export class AuthService {
       );
   }
 
+  changeRequirePasswordLength(length:number) {
+    return this.http
+      .post<number>('/api/Authentication/ChangePasswordMinLength', length)
+      .pipe(catchError(this.handleError));
+  }
+
   isLoggedIn() {
     return !!this.getJwtToken();
   }

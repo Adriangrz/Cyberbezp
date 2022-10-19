@@ -98,6 +98,12 @@ namespace CyberbezpApi.Services
                 throw new ForbidException();
             }
 
+            if (!(changePasswordDto.NewPassword.Length >= PasswordMinLength))
+                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {PasswordMinLength} znaków");
+
+            if (!changePasswordDto.NewPassword.Any(char.IsDigit) && isEnabledPasswordRequriments)
+                throw new UnauthorizedException("Hasło musi mieć co najmniej jedną cyfrę");
+
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
             if (!result.Succeeded)
                 throw new ForbidException();

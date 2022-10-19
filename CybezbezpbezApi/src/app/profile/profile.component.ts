@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -7,11 +8,16 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  currentUser: any;
+  currentUserMail: any;
+  currentUserRole: any;
+  roles: string[] = []
+  email? : string;
 
-  constructor(private token: TokenStorageService) { }
+
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService,) { }
 
   ngOnInit(): void {
-    this.currentUser = this.token.getUser();
+    this.currentUserMail = this.authService.getLoggedInUser;
+    this.currentUserRole = this.authService.getRole();
   }
 }

@@ -11,8 +11,10 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardUserComponent } from './board-user/board-user.component';
-
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { NzTableModule } from 'ng-zorro-antd/table'
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,10 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NzFormModule,
+    NzTableModule,
+    NzButtonModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

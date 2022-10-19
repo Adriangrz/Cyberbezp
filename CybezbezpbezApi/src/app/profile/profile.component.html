@@ -1,26 +1,23 @@
-<div class="container" *ngIf="currentUser; else loggedOut">
+<div class="container" *ngIf="currentUserMail; else loggedOut">
   <header class="jumbotron">
     <h3>
-      <strong>{{ currentUser.username }}</strong> Profil
+      Profil <strong>{{ currentUserRole }}a</strong>
     </h3>
   </header>
   <p>
-    <strong>Token:</strong>
-    {{ currentUser.accessToken.substring(0, 20) }} ...
-    {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
-  </p>
-  <p>
     <strong>Email:</strong>
-    {{ currentUser.email }}
+    {{ currentUserMail }}
   </p>
-  <strong>Rola:</strong>
+  <strong>Przypisane role:</strong>
   <ul>
-    <li *ngFor="let role of currentUser.roles">
-      {{ role }}
+    <li>
+      {{ currentUserRole }}
     </li>
   </ul>
 </div>
-
+<div>
+  <button nz-button nzType="primary" [routerLink]="['/register']">Primary</button>
+</div>
 <ng-template #loggedOut>
-  Proszę się zalogować.
+  Please login.
 </ng-template>

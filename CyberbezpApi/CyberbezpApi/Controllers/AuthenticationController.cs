@@ -61,6 +61,13 @@ namespace CyberbezpApi.Controllers
             return Ok();
         }
 
+        [HttpGet("GetAllSettings")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<SettingsDto> GetAllSettings()
+        {
+            return _authService.GetAllSettings();
+        }
+
         [HttpPost("SetPasswordExpirationTime")]
         [Authorize(Roles = "Admin")]
         public ActionResult SetPasswordExpirationTime([FromBody] int time)

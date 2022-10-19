@@ -27,5 +27,6 @@ namespace CyberbezpApi.Database
         private void GenerateAdminAndRoles(ModelBuilder builder)
         {
         }
+
     }
 }

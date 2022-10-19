@@ -18,6 +18,12 @@ export class ProfileComponent implements OnInit {
   passwordLengthForm: any = {
     length: 1,
   };
+  passwordComplexityForm: any = {
+    requireDigit: true,
+  };
+  passwordValidityForm: any = {
+    passwordValidity: 1,
+  };
   currentUserMail: any;
   currentUserRole: any;
   currentUserRoleAdmin = false;
@@ -30,6 +36,9 @@ export class ProfileComponent implements OnInit {
   passwordMessage: string| undefined;
   lengthError: string| undefined;
   lengthMessage: string| undefined;
+  passwordComplexityError: string| undefined;
+  passwordComplexityMessage: string| undefined;
+  passwordValidityError: string| undefined;
 
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private router: Router) { }
@@ -39,10 +48,23 @@ export class ProfileComponent implements OnInit {
     this.currentUserRole = this.authService.getRole();
     if (this.currentUserRole === 'Admin')
     {this.currentUserRoleAdmin = true
-      return;
-    }
+    }else{
     this.currentUserRoleAdmin = false;
+    }
+    this.authService
+    .getAllSettings()
+    .subscribe({
+      next: (data) => {
+        console.log(data);
+        this.passwordComplexityForm.requireDigit = data.isEnabledPasswordRequirements;
+        this.passwordValidityForm.passwordValidity = data.passwordExpirationTime;
+        this.passwordLengthForm.length = data.passwordMinLength;
+      },
+      error: (err) => {
+      },
+    });
   }
+
   save(): void {
     console.log(this.form);
     this.authService
@@ -52,7 +74,7 @@ export class ProfileComponent implements OnInit {
     })
     .subscribe({
       next: () => {
-        this.passwordMessage="Hasło zastało zmienione";
+        this.passwordMessage="Hasło zostało zmienione";
       },
       error: (err) => {
         this.passwordError = err;
@@ -70,7 +92,7 @@ export class ProfileComponent implements OnInit {
     .changeRequirePasswordLength(this.passwordLengthForm.length)
     .subscribe({
       next: () => {
-        this.lengthMessage="Długość zastała zmienione";
+        this.lengthMessage="Długość została zmienione";
       },
       error: (err) => {
         this.lengthError = err;
@@ -78,5 +100,28 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  changeDigitRequirement(){
+    console.log(this.passwordComplexityForm);
+    this.authService
+    .changeDigitRequirement(this.passwordComplexityForm.requireDigit)
+    .subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        this.passwordComplexityError = err;
+      },
+    });
+  }
 
+  changePasswordValidity(){
+    this.authService
+    .changePasswordValidity(this.passwordValidityForm.passwordValidity)
+    .subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        this.passwordValidityError = err;
+      },
+    });
+  }
 }

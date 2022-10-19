@@ -23,11 +23,9 @@ namespace CyberbezpApi.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly IAuthorizationService _authorizationService;
         private readonly IUserContextService _userContextService;
-        private bool isEnabledPasswordRequriments = true;
-        private int PasswordMinLength { get; set; } = 14;
-        public int PasswordExpirationTime { get; set; } = 20;
+        private readonly SettingsService _settingsService;
 
-        public AuthService(UserManager<User> userManager, IConfiguration configuration, IMapper mapper, ApplicationDbContext dbContext, IAuthorizationService authorizationService, IUserContextService userContextService)
+        public AuthService(UserManager<User> userManager, IConfiguration configuration, IMapper mapper, ApplicationDbContext dbContext, IAuthorizationService authorizationService, IUserContextService userContextService, SettingsService settingsService)
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -35,6 +33,7 @@ namespace CyberbezpApi.Services
             _dbContext = dbContext;
             _authorizationService = authorizationService;
             _userContextService = userContextService;
+            _settingsService = settingsService;
         }
         public async Task RegistrationAsync(RegistrationDto registrationDto)
         {
@@ -44,10 +43,10 @@ namespace CyberbezpApi.Services
             if (await _userManager.FindByEmailAsync(userData.Email) is not null)
                 throw new BadRequestException("Użytkownik już istnieje");
 
-            if (!(registrationDto.Password.Length >= PasswordMinLength))
-                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {PasswordMinLength} znaków");
+            if (!(registrationDto.Password.Length >= _settingsService.PasswordMinLength))
+                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {_settingsService.PasswordMinLength} znaków");
 
-            if (!registrationDto.Password.Any(char.IsDigit) && isEnabledPasswordRequriments)
+            if (!registrationDto.Password.Any(char.IsDigit) && _settingsService.isEnabledPasswordRequriments)
                 throw new UnauthorizedException("Hasło musi mieć co najmniej jedną cyfrę");
 
             var result = await _userManager.CreateAsync(userData, registrationDto.Password);
@@ -61,25 +60,36 @@ namespace CyberbezpApi.Services
         }
         public void EnableOrDisablePasswordRequirements(bool isEnable)
         {
-            isEnabledPasswordRequriments = isEnable;
+            _settingsService.isEnabledPasswordRequriments = isEnable;
         }
 
         public void ChangePasswordMinLength(int minLength)
         {
-            PasswordMinLength = minLength;
+            _settingsService.PasswordMinLength = minLength;
         }
 
         public void SetPasswordExpirationTime(int time)
         {
-            PasswordExpirationTime = time;
+            _settingsService.PasswordExpirationTime = time;
+        }
+
+        public SettingsDto GetAllSettings()
+        {
+            var settings = new SettingsDto()
+            {
+                PasswordExpirationTime = _settingsService.PasswordExpirationTime,
+                PasswordMinLength = _settingsService.PasswordMinLength,
+                isEnabledPasswordRequirements= _settingsService.isEnabledPasswordRequriments,
+            };
+            return settings;
         }
 
         public void CheckPassword(string password)
         {
-            if (!(password.Length >= PasswordMinLength))
-                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {PasswordMinLength} znaków");
+            if (!(password.Length >= _settingsService.PasswordMinLength))
+                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {_settingsService.PasswordMinLength} znaków");
 
-            if (!password.Any(char.IsDigit) && isEnabledPasswordRequriments)
+            if (!password.Any(char.IsDigit) && _settingsService.isEnabledPasswordRequriments)
                 throw new UnauthorizedException("Hasło musi mieć co najmniej jedną cyfrę");
         }
 
@@ -98,10 +108,10 @@ namespace CyberbezpApi.Services
                 throw new ForbidException();
             }
 
-            if (!(changePasswordDto.NewPassword.Length >= PasswordMinLength))
-                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {PasswordMinLength} znaków");
+            if (!(changePasswordDto.NewPassword.Length >= _settingsService.PasswordMinLength))
+                throw new UnauthorizedException($"Hasło musi mieć długość co najmniej {_settingsService.PasswordMinLength} znaków");
 
-            if (!changePasswordDto.NewPassword.Any(char.IsDigit) && isEnabledPasswordRequriments)
+            if (!changePasswordDto.NewPassword.Any(char.IsDigit) && _settingsService.isEnabledPasswordRequriments)
                 throw new UnauthorizedException("Hasło musi mieć co najmniej jedną cyfrę");
 
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
@@ -143,7 +153,7 @@ namespace CyberbezpApi.Services
 
             var t = GenerateJWT(user, userRoles[0]);
 
-            if (user.LastPasswordChangedDate.AddDays(PasswordExpirationTime) < DateTime.Now)
+            if (user.LastPasswordChangedDate.AddDays(_settingsService.PasswordExpirationTime) < DateTime.Now)
                 t.hasPasswordExpired = true;
 
             t.IsFirstLogin = user.IsFirstLogin;

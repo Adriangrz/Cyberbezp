@@ -5,6 +5,7 @@ import { ResponseToken } from './response-token.interface';
 import { LoginData } from './login-data.interface';
 import { RegistrationData } from './registration-data.interface';
 import { ChangePassword } from './change-password.interface';
+import { Settings } from './settings.interface';
 
 const AUTH_API = 'https://localhost:7222/api/Authentication/';
 
@@ -61,6 +62,24 @@ export class AuthService {
   changeRequirePasswordLength(length:number) {
     return this.http
       .post<number>('/api/Authentication/ChangePasswordMinLength', length)
+      .pipe(catchError(this.handleError));
+  }
+
+  changeDigitRequirement(requireDigit:boolean){
+    return this.http
+      .post<boolean>('/api/Authentication/EnableOrDisablePasswordRequirements', requireDigit)
+      .pipe(catchError(this.handleError));
+  }
+
+  changePasswordValidity(passwordValidity:number){
+    return this.http
+      .post<boolean>('/api/Authentication/SetPasswordExpirationTime', passwordValidity)
+      .pipe(catchError(this.handleError));
+  }
+
+  getAllSettings(){
+    return this.http
+      .get<Settings>('/api/Authentication/GetAllSettings')
       .pipe(catchError(this.handleError));
   }
 

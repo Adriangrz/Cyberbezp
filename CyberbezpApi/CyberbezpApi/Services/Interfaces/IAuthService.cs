@@ -13,5 +13,6 @@ namespace CyberbezpApi.Services.Interfaces
         void ChangePasswordMinLength(int minLength);
         void SetPasswordExpirationTime(int time);
         void CheckPassword(string password);
+        SettingsDto GetAllSettings();
     }
 }

@@ -10,6 +10,14 @@ import { UserService } from '../_services/user.service';
 export class BoardUserComponent implements OnInit {
   users: User[] = [];
   selectId: string = '';
+  isPasswordChange:boolean=false;
+  nameForm: any = {
+    name: '',
+  };
+
+  passwordForm: any = {
+    password: '',
+  };
 
   constructor(private userService: UserService) { }
 
@@ -34,6 +42,7 @@ export class BoardUserComponent implements OnInit {
       next: (id) => {
       },
       error: (err) => {
+        console.log(err)
       },
     });
   }
@@ -49,10 +58,14 @@ export class BoardUserComponent implements OnInit {
       },
     });
   }
+  password(id:string){
+    this.selectId=id;
+    this.isPasswordChange=true;
+  }
 
-  changeUserName(id:string, newName: string) {
+  changeUserName(id:string) {
     this.userService
-    .changeUserName(id,newName)
+    .changeUserName(id,this.nameForm.name)
     .subscribe({
       next: (data) => {
         alert("Zmieniono nazwę użytkownika");
@@ -62,9 +75,10 @@ export class BoardUserComponent implements OnInit {
     });
   }
 
-  changePassword(id:string, newPassword: string) {
+
+  changePassword() {
     this.userService
-    .changeUserName(id,newPassword)
+    .changePassword(this.selectId,this.passwordForm.password.toString())
     .subscribe({
       next: (data) => {
         alert("Zmieniono hasło użytkownika");

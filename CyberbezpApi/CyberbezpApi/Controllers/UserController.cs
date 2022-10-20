@@ -18,7 +18,7 @@ namespace CyberbezpApi.Controllers
             _userService = userService;
         }
 
-        [HttpPut("{id}/UserName")]
+        [HttpPost("{id}/UserName")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDto>> UpdateUserName([FromBody] string name, [FromRoute] string id)
         {
@@ -27,7 +27,7 @@ namespace CyberbezpApi.Controllers
 
             return Ok(user);
         }
-        [HttpPut("{id}/Password")]
+        [HttpPost("{id}/Password")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdatePassword([FromBody] string password, [FromRoute] string id)
         {
@@ -58,11 +58,11 @@ namespace CyberbezpApi.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<string>> Delete([FromRoute] string id)
+        public async Task<ActionResult> Delete([FromRoute] string id)
         {
             await _userService.DeleteUser(id);
 
-            return Ok(id);
+            return Ok();
         }
     }
 }

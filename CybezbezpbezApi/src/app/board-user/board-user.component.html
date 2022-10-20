@@ -1,4 +1,13 @@
 <div class="container">
+  <div class="d-flex" *ngIf="isPasswordChange">
+    <form (submit)="changePassword()">
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Hasło</label>
+        <input name="password" [(ngModel)]="passwordForm.password" type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+      <button type="submit" class="btn btn-primary">Zapisz</button>
+    </form>
+  </div>
     <ul class="list-group">
       <li *ngFor="let user of users" class="list-group-item">
         <div class="d-flex justify-content-between">
@@ -10,7 +19,7 @@
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="deleteUser(user.id)">Usuń</button>
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="blockUser(user.id)">Blokuj</button>
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="changeUserName(user.id)">Zmień nazwę</button>
-        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="changePassword(user.id)">Zmień hasło</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="password(user.id)">Zmień hasło</button>
       </li>
     </ul>
 </div>

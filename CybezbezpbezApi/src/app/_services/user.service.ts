@@ -23,7 +23,7 @@ export class UserService {
 
   deleteUser(id: string){
     return this.http
-    .delete<string>(`/api/User/${id}`)
+    .delete(`/api/User/${id}`)
     .pipe(catchError(this.handleError));
   }
 
@@ -33,9 +33,9 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  changeUserName(id: string, userName: string) {
+  changeUserName(id: string, name: string) {
     return this.http
-      .post(`/api/User/${id}/UserName`,userName)
+      .post(`/api/User/${id}/UserName`,name)
       .pipe(catchError(this.handleError));
   }
 

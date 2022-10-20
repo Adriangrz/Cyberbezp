@@ -17,6 +17,8 @@ export class AuthService {
   private readonly JWT_EXPIRATION_TIME = 'JWT_EXPIRATION_TIME';
   private readonly Logged_In_User = 'Logged_In_User';
   private readonly Role = 'Role';
+  private _isFirstLogin = false;
+  private _hasPasswordExpired = false;
   constructor(private http: HttpClient) {}
 
   private handleError(error: HttpErrorResponse) {
@@ -28,6 +30,14 @@ export class AuthService {
 
   get getLoggedInUser() {
     return localStorage.getItem(this.Logged_In_User);
+  }
+
+  get isFirstLogin(){
+    return this._isFirstLogin;
+  }
+
+  get hasPasswordExpired(){
+    return this._hasPasswordExpired;
   }
 
   register(registrationData: RegistrationData) {
@@ -52,8 +62,11 @@ export class AuthService {
         ...loginData,
       })
       .pipe(
-        tap((responseToken) =>
+        tap((responseToken) =>{
+          this._isFirstLogin= responseToken.isFirstLogin;
+          this._hasPasswordExpired= responseToken.hasPasswordExpired;
           this.doLoginUser(loginData.email, responseToken)
+        }
         ),
         catchError(this.handleError)
       );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { ChangePassword } from '../_services/change-password.interface';
@@ -9,7 +9,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
   form: any = {
     email: null,
     oldPassword: null,
@@ -63,6 +63,12 @@ export class ProfileComponent implements OnInit {
       error: (err) => {
       },
     });
+  }
+
+  ngAfterViewInit()
+  {
+    if(this.authService.isFirstLogin || this.authService.hasPasswordExpired)
+      alert("Musisz zmienić hasło");
   }
 
   save(): void {

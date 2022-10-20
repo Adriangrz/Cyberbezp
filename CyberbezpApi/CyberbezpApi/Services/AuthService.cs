@@ -39,6 +39,7 @@ namespace CyberbezpApi.Services
         {
             var userData = _mapper.Map<User>(registrationDto);
             userData.LastPasswordChangedDate = DateTime.Now;
+            userData.IsFirstLogin = true;
 
             if (await _userManager.FindByEmailAsync(userData.Email) is not null)
                 throw new BadRequestException("Użytkownik już istnieje");

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
+import { ResponseToken } from '../_services/response-token.interface';
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
       ...this.form
     })
     .subscribe({
-      next: () => {
+      next: (responseToken:ResponseToken) => {
         this.isLoggedIn=true;
         this.roles.push(this.authService.getRole()!);
         this.router.navigateByUrl('/profile')

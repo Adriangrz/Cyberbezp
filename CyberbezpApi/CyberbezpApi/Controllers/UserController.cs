@@ -56,13 +56,13 @@ namespace CyberbezpApi.Controllers
             return Ok(users);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Delete([FromRoute] string id)
+        public async Task<ActionResult<string>> Delete([FromRoute] string id)
         {
             await _userService.DeleteUser(id);
 
-            return Ok();
+            return Ok(id);
         }
     }
 }

@@ -9,6 +9,7 @@ import { UserService } from '../_services/user.service';
 })
 export class BoardUserComponent implements OnInit {
   users: User[] = [];
+  selectId: string = '';
 
   constructor(private userService: UserService) { }
 
@@ -22,5 +23,21 @@ export class BoardUserComponent implements OnInit {
       error: (err) => {
       },
     });
+  }
+
+  deleteUser(id:string){
+    this.users = this.users.filter((t) => t.id !== id);
+    this.userService
+    .deleteUser(id)
+    .subscribe({
+      next: (id) => {
+      },
+      error: (err) => {
+      },
+    });
+  }
+
+  blockUser(id:string){
+
   }
 }

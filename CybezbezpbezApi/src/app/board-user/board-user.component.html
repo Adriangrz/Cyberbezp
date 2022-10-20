@@ -1,8 +1,14 @@
 <div class="container">
     <ul class="list-group">
       <li *ngFor="let user of users" class="list-group-item">
-        <p>{{user.email}}</p>
-
+        <div class="d-flex justify-content-between">
+          <h5>Email:</h5>
+          <p>{{user.email}}</p>
+          <h5>Nazwa:</h5>
+          <p>{{user.userName}}</p>
+        </div>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="deleteUser(user.id)">Usuń</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary">Blokuj</button>
       </li>
     </ul>
 </div>

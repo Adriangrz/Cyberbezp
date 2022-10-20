@@ -20,4 +20,10 @@ export class UserService {
       .get<User[]>('/api/User')
       .pipe(catchError(this.handleError));
   }
+
+  deleteUser(id: string){
+    return this.http
+    .delete<string>(`/api/User/${id}`)
+    .pipe(catchError(this.handleError));
+  }
 }

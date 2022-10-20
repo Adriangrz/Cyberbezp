@@ -59,14 +59,14 @@ namespace CyberbezpApi.Services
                 throw new Exception("Nie udało się zmienić hasła");
 
         }
-        public async Task BlockUser(string userId)
+        public async Task BlockUser(string userId, bool enabled)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
                 throw new NotFoundException("Użytkownik nie istnieje");
 
-            await _userManager.SetLockoutEnabledAsync(user, true);
+            await _userManager.SetLockoutEnabledAsync(user, enabled);
         }
         public async Task<List<UserDto>> GetUsers()
         {

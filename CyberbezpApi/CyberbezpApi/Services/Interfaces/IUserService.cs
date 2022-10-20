@@ -8,6 +8,6 @@ namespace CyberbezpApi.Services.Interfaces
         Task ChangePassword(string userId, string password);
         Task<List<UserDto>> GetUsers();
         Task DeleteUser(string userId);
-        Task BlockUser(string userId);
+        Task BlockUser(string userId, bool enabled);
     }
 }

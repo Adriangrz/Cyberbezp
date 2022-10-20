@@ -27,18 +27,22 @@ export class UserService {
     .pipe(catchError(this.handleError));
   }
 
-  blockUser(id: string) {
-    // return this.http
-    // .post<string>(`/api/User/${id}/BlockUser`, { ...this.blockUser(id) })
-    // .pipe(catchError(this.handleError));
+  blockUser(id: string, enabled:boolean) {
+    return this.http
+      .post(`/api/User/${id}/BlockUser`,enabled)
+      .pipe(catchError(this.handleError));
   }
 
-  changeUserName(id: string) {
-
+  changeUserName(id: string, userName: string) {
+    return this.http
+      .post(`/api/User/${id}/UserName`,userName)
+      .pipe(catchError(this.handleError));
   }
 
-  changePassword(id: string) {
-
+  changePassword(id: string, password: string) {
+    return this.http
+      .post(`/api/User/${id}/Password`,password)
+      .pipe(catchError(this.handleError));
   }
 
 }

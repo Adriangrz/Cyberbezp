@@ -39,20 +39,38 @@ export class BoardUserComponent implements OnInit {
   }
 
   blockUser(id:string){
-    this.users = this.users.filter((t) => t.id !== id);
     this.userService
-    .blockUser(id)
+    .blockUser(id,true)
+    .subscribe({
+      next: (data) => {
+        alert("Zablokowano użytkownika");
+      },
+      error: (err) => {
+      },
+    });
   }
 
-  changeUserName(id:string) {
-    this.users = this.users.filter((t) => t.id !== id);
+  changeUserName(id:string, newName: string) {
     this.userService
-    .changeUserName(id)
+    .changeUserName(id,newName)
+    .subscribe({
+      next: (data) => {
+        alert("Zmieniono nazwę użytkownika");
+      },
+      error: (err) => {
+      },
+    });
   }
 
-  changePassword(id:string) {
-    this.users = this.users.filter((t) => t.id !== id);
+  changePassword(id:string, newPassword: string) {
     this.userService
-    .changePassword(id)
+    .changeUserName(id,newPassword)
+    .subscribe({
+      next: (data) => {
+        alert("Zmieniono hasło użytkownika");
+      },
+      error: (err) => {
+      },
+    });
   }
 }

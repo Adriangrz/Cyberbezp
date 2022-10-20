@@ -39,10 +39,10 @@ namespace CyberbezpApi.Controllers
 
         [HttpPost("{id}/BlockUser")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> BlockUser([FromRoute] string id)
+        public async Task<ActionResult> BlockUser([FromRoute] string id, [FromBody] bool enabled)
         {
 
-            await _userService.BlockUser(id);
+            await _userService.BlockUser(id, enabled);
 
             return Ok();
         }

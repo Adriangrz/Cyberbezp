@@ -8,7 +8,9 @@
           <p>{{user.userName}}</p>
         </div>
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="deleteUser(user.id)">Usuń</button>
-        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary">Blokuj</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="blockUser(user.id)">Blokuj</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="changeUserName(user.id)">Zmień nazwę</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="changePassword(user.id)">Zmień hasło</button>
       </li>
     </ul>
 </div>

@@ -26,6 +26,7 @@ export class BoardUserComponent implements OnInit {
   }
 
   deleteUser(id:string){
+    alert("Poprawnie usunięto użytkownika");
     this.users = this.users.filter((t) => t.id !== id);
     this.userService
     .deleteUser(id)
@@ -38,6 +39,20 @@ export class BoardUserComponent implements OnInit {
   }
 
   blockUser(id:string){
+    this.users = this.users.filter((t) => t.id !== id);
+    this.userService
+    .blockUser(id)
+  }
 
+  changeUserName(id:string) {
+    this.users = this.users.filter((t) => t.id !== id);
+    this.userService
+    .changeUserName(id)
+  }
+
+  changePassword(id:string) {
+    this.users = this.users.filter((t) => t.id !== id);
+    this.userService
+    .changePassword(id)
   }
 }

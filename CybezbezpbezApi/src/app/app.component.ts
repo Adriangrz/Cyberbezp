@@ -31,5 +31,6 @@ export class AppComponent {
   logout(): void {
     this.authService.logout();
     window.location.reload();
+    alert('Wylogowano');
   }
 }

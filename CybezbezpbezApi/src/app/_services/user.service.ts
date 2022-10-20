@@ -26,4 +26,19 @@ export class UserService {
     .delete<string>(`/api/User/${id}`)
     .pipe(catchError(this.handleError));
   }
+
+  blockUser(id: string) {
+    // return this.http
+    // .post<string>(`/api/User/${id}/BlockUser`, { ...this.blockUser(id) })
+    // .pipe(catchError(this.handleError));
+  }
+
+  changeUserName(id: string) {
+
+  }
+
+  changePassword(id: string) {
+
+  }
+
 }

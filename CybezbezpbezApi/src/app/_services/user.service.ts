@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-const API_URL = 'http://localhost:8080/api/';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { User } from './user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0 || error.status >= 500 || !error.error) {
+      return throwError(() => 'Coś poszło nie tak');
+    }
+    return throwError(() => error.error);
+  }
   constructor(private http: HttpClient) { }
 
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'All', { responseType: 'text' });
-  }
-
-  getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'User', { responseType: 'text' });
-  }
-
-  getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'Admin', { responseType: 'text' });
+  getAll(){
+    return this.http
+      .get<User[]>('/api/User')
+      .pipe(catchError(this.handleError));
   }
 }

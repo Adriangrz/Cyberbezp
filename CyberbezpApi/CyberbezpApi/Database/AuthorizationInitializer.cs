@@ -38,6 +38,7 @@ namespace CyberbezpApi.Database
                 SecurityStamp = new Guid().ToString(),
                 UserName = "ADMIN",
                 Email = "admin@test.pl",
+                IsFirstLogin = false,
             };
 
             if (await _userManager.FindByNameAsync(admin.UserName) == null)

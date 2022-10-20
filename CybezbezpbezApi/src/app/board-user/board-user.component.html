@@ -1,5 +1,8 @@
 <div class="container">
-  <header class="jumbotron">
-    <p>{{ content }}</p>
-  </header>
+    <ul class="list-group">
+      <li *ngFor="let user of users" class="list-group-item">
+        <p>{{user.email}}</p>
+
+      </li>
+    </ul>
 </div>

@@ -17,6 +17,9 @@
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+      <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" routerLink="user">Użytkownicy</a>
+      </li>
       <li class="nav-item">
         <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
       </li>

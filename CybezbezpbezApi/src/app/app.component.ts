@@ -10,6 +10,7 @@ import { TokenStorageService } from './_services/token-storage.service';
 export class AppComponent {
   private roles: string[] = [];
   isLoggedIn = false;
+  isAdmin= false;
   showAdminBoard = false;
   username?: string;
 
@@ -17,6 +18,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.authService.getJwtToken();
+    this.isAdmin = this.authService.getRole() === 'Admin';
 
     if (this.isLoggedIn) {
       const user = this.authService.getLoggedInUser;

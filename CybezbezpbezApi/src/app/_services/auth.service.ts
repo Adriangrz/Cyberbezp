@@ -16,7 +16,9 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly JWT_EXPIRATION_TIME = 'JWT_EXPIRATION_TIME';
   private readonly Logged_In_User = 'Logged_In_User';
+  private readonly User_Session = 'User_Session';
   private readonly Role = 'Role';
+  private readonly Last_Request = 'Last_Request';
   private _isFirstLogin = false;
   private _hasPasswordExpired = false;
   constructor(private http: HttpClient) {}
@@ -90,9 +92,27 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
 
+  changeMaximumNumberOfAttempts(maximumNumberOfAttempts:number){
+    return this.http
+      .post<boolean>('/api/Authentication/SetMaximumNumberOfAttempts', maximumNumberOfAttempts)
+      .pipe(catchError(this.handleError));
+  }
+
+  changeUserSession(userSession:number){
+    return this.http
+      .post<boolean>('/api/Authentication/SetUserSession', userSession)
+      .pipe(catchError(this.handleError));
+  }
+
   getAllSettings(){
     return this.http
       .get<Settings>('/api/Authentication/GetAllSettings')
+      .pipe(catchError(this.handleError));
+  }
+
+  getLogs(){
+    return this.http
+      .get<string[]>('/api/Log')
       .pipe(catchError(this.handleError));
   }
 
@@ -107,9 +127,15 @@ export class AuthService {
     return localStorage.getItem(this.Role);
   }
 
+  getUserSession() {
+    return localStorage.getItem(this.User_Session);
+  }
+
   private doLoginUser(email: string, responseToken: ResponseToken) {
     localStorage.setItem(this.Logged_In_User, email);
     localStorage.setItem(this.Role, responseToken.role);
+    localStorage.setItem(this.User_Session, responseToken.userSession.toString());
+    localStorage.setItem(this.Last_Request, new Date().getTime().toString());
     this.storeTokens(responseToken);
   }
 

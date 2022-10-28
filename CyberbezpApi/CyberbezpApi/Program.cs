@@ -11,8 +11,11 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using CyberbezpApi.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using NLog.Web;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseNLog();
 
 builder.Services.AddCors(options =>
 {
@@ -67,7 +70,8 @@ builder.Services.AddIdentity<User, IdentityRole>(
         opts.Password.RequireLowercase = false;
         opts.Password.RequiredUniqueChars = 0;
         opts.SignIn.RequireConfirmedAccount = false; //development
-
+        opts.Lockout.MaxFailedAccessAttempts = 0;
+        opts.Lockout.AllowedForNewUsers = false;
         opts.User.RequireUniqueEmail = true;
         opts.User.AllowedUserNameCharacters = "Aa•πBbCc∆ÊDdEe ÍFfGgHhIiJjKkLl£≥MmNn—ÒOo”ÛPpQqRrSsåúTtUuvWwxYyZzèüØø0123456789-._@+/!#$%^&*~`?|/=";
 

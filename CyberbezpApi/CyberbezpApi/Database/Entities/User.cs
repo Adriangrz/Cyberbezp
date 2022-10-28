@@ -6,5 +6,6 @@ namespace CyberbezpApi.Database.Entities
     {
         public bool IsFirstLogin { get; set; }
         public DateTime LastPasswordChangedDate { get; set; }
+        public DateTime UserLockOutDate { get; set; }
     }
 }

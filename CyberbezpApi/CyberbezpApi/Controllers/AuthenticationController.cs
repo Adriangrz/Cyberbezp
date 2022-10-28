@@ -3,6 +3,7 @@ using CyberbezpApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using System.Data;
 
 namespace CyberbezpApi.Controllers
@@ -73,6 +74,24 @@ namespace CyberbezpApi.Controllers
         public ActionResult SetPasswordExpirationTime([FromBody] int time)
         {
             _authService.SetPasswordExpirationTime(time);
+
+            return Ok();
+        }
+
+        [HttpPost("SetMaximumNumberOfAttempts")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult SetMaximumNumberOfAttempts([FromBody] int time)
+        {
+            _authService.SetMaximumNumberOfAttempts(time);
+
+            return Ok();
+        }
+
+        [HttpPost("SetUserSession")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult SetUserSession([FromBody] int time)
+        {
+            _authService.SetUserSession(time);
 
             return Ok();
         }

@@ -90,6 +90,24 @@
     {{lengthMessage}}
   </div>
   </form>
+  <form *ngIf="currentUserRoleAdmin" class="mt-4" (submit)="changeMaximumNumberOfAttempts()">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="maximumNumberOfAttempts">Maksymalna liczba prób wpisania hasła:</span>
+      <input name="length" [(ngModel)]="maximumNumberOfAttemptsForm.maximumNumberOfAttempts" type="number" min="1" value="1" class="form-control" aria-describedby="maximumNumberOfAttempts">
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+    <button type="submit" class="btn btn-primary mx-auto">Zmień</button>
+  </div>
+  </form>
+  <form *ngIf="currentUserRoleAdmin" class="mt-4" (submit)="changeUserSession()">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="userSession">Czas sesji uzytkownika:</span>
+      <input name="length" [(ngModel)]="userSessionForm.userSession" type="number" min="1" value="1" class="form-control" aria-describedby="userSession">
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+    <button type="submit" class="btn btn-primary mx-auto">Zmień</button>
+  </div>
+  </form>
 <ng-template #loggedOut>
   Please login.
 </ng-template>

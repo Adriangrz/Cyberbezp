@@ -24,6 +24,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   passwordValidityForm: any = {
     passwordValidity: 1,
   };
+  maximumNumberOfAttemptsForm: any = {
+    maximumNumberOfAttempts: 1,
+  };
+  userSessionForm: any = {
+    userSession: 1,
+  };
   currentUserMail: any;
   currentUserRole: any;
   currentUserRoleAdmin = false;
@@ -59,6 +65,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.passwordComplexityForm.requireDigit = data.isEnabledPasswordRequirements;
         this.passwordValidityForm.passwordValidity = data.passwordExpirationTime;
         this.passwordLengthForm.length = data.passwordMinLength;
+        this.maximumNumberOfAttemptsForm.maximumNumberOfAttempts = data.maximumNumberOfAttempts;
+        this.userSessionForm.userSession = this.authService.getUserSession();
       },
       error: (err) => {
       },
@@ -102,6 +110,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.lengthError = err;
+      },
+    });
+  }
+
+  changeMaximumNumberOfAttempts(){
+    this.authService
+    .changeMaximumNumberOfAttempts(this.maximumNumberOfAttemptsForm.maximumNumberOfAttempts)
+    .subscribe({
+      next: () => {
+      },
+      error: (err) => {
+      },
+    });
+  }
+
+  changeUserSession(){
+    this.authService
+    .changeUserSession(this.userSessionForm.userSession)
+    .subscribe({
+      next: () => {
+      },
+      error: (err) => {
       },
     });
   }

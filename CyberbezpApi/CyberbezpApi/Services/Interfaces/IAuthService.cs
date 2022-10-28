@@ -13,6 +13,8 @@ namespace CyberbezpApi.Services.Interfaces
         void ChangePasswordMinLength(int minLength);
         void SetPasswordExpirationTime(int time);
         void CheckPassword(string password);
+        void SetMaximumNumberOfAttempts(int time);
+        void SetUserSession(int time);
         SettingsDto GetAllSettings();
     }
 }

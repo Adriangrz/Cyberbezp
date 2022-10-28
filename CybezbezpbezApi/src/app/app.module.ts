@@ -16,6 +16,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { LogInfoComponent } from './log-info/log-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     HomeComponent,
     ProfileComponent,
     BoardAdminComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    LogInfoComponent
   ],
   imports: [
     BrowserModule,

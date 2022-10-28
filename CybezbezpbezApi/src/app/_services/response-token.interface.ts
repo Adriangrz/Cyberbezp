@@ -4,4 +4,5 @@ export interface ResponseToken {
   isFirstLogin: boolean;
   role: string;
   hasPasswordExpired: boolean;
+  userSession:number;
 }

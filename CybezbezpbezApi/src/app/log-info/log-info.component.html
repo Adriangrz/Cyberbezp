@@ -1,0 +1,15 @@
+<h5>Logi użytkowników</h5>
+<table>
+  <tr>
+    <th>Użytkownik</th>
+    <th>Data</th>
+    <th>Akcja</th>
+    <th>Opis</th>
+  </tr>
+  <tr *ngFor="let log of logs">
+    <td>{{log[0]}}</td>
+    <td>{{log[1]}}</td>
+    <td>{{log[2]}}</td>
+    <td>{{log[3]}}</td>
+  </tr>
+</table>

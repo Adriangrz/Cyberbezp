@@ -15,10 +15,18 @@ export class RegisterComponent {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  oneTimePassword: number | undefined;
+  a = 3;
+  x = 84;
 
   constructor(private authService: AuthService) { }
 
+  generatePassword() {
+    this.oneTimePassword = Math.log(this.a) / Math.log(this.x);
+    console.log('a', this.a)
+    console.log('x', this.x)
 
+  }
   onSubmit(): void {
     this.authService
     .register({

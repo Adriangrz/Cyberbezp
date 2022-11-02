@@ -52,14 +52,8 @@
           <div *ngIf="password.errors['containsUpperLetter']">Hasło musi zawierać co najmniej 1 dużą literę!</div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="oneTimePassword">Jednorazowe hasło</label>
 
-  <div class="justify-center">
-    <p><strong>Password:</strong> {{ oneTimePassword }}</p>
-    <button class="btn btn-success" type="submit" (click)="generatePassword()">Click me!</button>
-  </div>
-      </div>
+
       <div class="form-group">
         <button class="btn btn-primary btn-block">
           Logowanie

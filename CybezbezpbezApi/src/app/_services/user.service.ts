@@ -32,9 +32,9 @@ export class UserService {
       .post(`/api/User/${id}/BlockUser`,enabled)
       .pipe(catchError(this.handleError));
   }
-  generatePassword(id: string, enabled: boolean) {
+  generatePassword(id: string, oneTimePassword: string) {
     return this.http
-    .post(`/api/User/${id}/OneTimePassword`,enabled)
+    .post(`/api/User/${id}/OneTimePassword`,oneTimePassword)
     .pipe(catchError(this.handleError));
   }
 

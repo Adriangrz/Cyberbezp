@@ -18,10 +18,13 @@ export class BoardUserComponent implements OnInit {
   passwordForm: any = {
     password: '',
   };
+  oneTimePasswordForm: any = {
+    oneTimePassword: '',
+  };
   oneTimePassword: number | undefined;
-  userEmail = this.users.map(user => user.email);
+  userEmail:string|undefined;
 
-  a = this.userEmail?.length;
+  a: number|undefined;
   x = Math.floor(Math.random() * 100);
 
   constructor(private userService: UserService) {
@@ -94,9 +97,22 @@ export class BoardUserComponent implements OnInit {
       },
     });
   }
-  generatePassword() {
-    this.oneTimePassword = Math.log(this.a) / Math.log(this.x);
+
+  generatePassword(id:string) {
+    this.userEmail = this.users.find(x=> x.id === id)?.email;
+    this.a = this.userEmail?.length;
+    this.oneTimePassword = Math.log(this.a!) / Math.log(this.x);
+    this.userService
+    .generatePassword(id, this.oneTimePasswordForm.oneTimePassword.toString())
+    .subscribe({
+      next: (data) => {
+        alert("Ustawiono hasło jednorazowe");
+      },
+      error: (err) => {
+      },
+    });
     console.log('a', this.a)
     console.log('x', this.x)
+    console.log('wynik', this.oneTimePassword)
   }
 }

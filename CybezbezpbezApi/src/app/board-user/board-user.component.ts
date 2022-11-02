@@ -18,8 +18,15 @@ export class BoardUserComponent implements OnInit {
   passwordForm: any = {
     password: '',
   };
+  oneTimePassword: number | undefined;
+  userEmail = this.users.map(user => user.email);
 
-  constructor(private userService: UserService) { }
+  a = this.userEmail?.length;
+  x = Math.floor(Math.random() * 100);
+
+  constructor(private userService: UserService) {
+    console.log(this.userEmail)
+  }
 
   ngOnInit(): void {
     this.userService
@@ -86,5 +93,10 @@ export class BoardUserComponent implements OnInit {
       error: (err) => {
       },
     });
+  }
+  generatePassword() {
+    this.oneTimePassword = Math.log(this.a) / Math.log(this.x);
+    console.log('a', this.a)
+    console.log('x', this.x)
   }
 }

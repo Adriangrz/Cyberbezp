@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  oneTimePassword: number | undefined;
+  a = this.form.email?.value?.length;
+  x = Math.floor(Math.random() * 100);
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
 
@@ -28,7 +31,12 @@ export class LoginComponent implements OnInit {
       this.roles = this.tokenStorage.getUser().roles;
     }
   }
+  generatePassword() {
+    this.oneTimePassword = Math.log(this.a) / Math.log(this.x);
+    console.log('a', this.a)
+    console.log('x', this.x)
 
+  }
   onSubmit(): void {
     this.authService
     .login({

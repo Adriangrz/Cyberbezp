@@ -47,6 +47,16 @@ namespace CyberbezpApi.Controllers
             return Ok();
         }
 
+        [HttpPost("{id}/OneTimePassword")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> OneTimePassword([FromRoute] string id, [FromBody] string password)
+        {
+
+            await _userService.SetOneTimePasswordAsync(id, password);
+
+            return Ok();
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserDto>>> GetAll()

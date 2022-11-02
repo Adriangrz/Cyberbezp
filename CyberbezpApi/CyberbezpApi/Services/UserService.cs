@@ -106,5 +106,19 @@ namespace CyberbezpApi.Services
             await _userManager.DeleteAsync(user);
             _logger.LogInformation($"admin@test.pl;{DateTime.Now};usunięcie użytkownika {userId};sukces usunięcia użytkownika");
         }
+
+        public async Task SetOneTimePasswordAsync(string userId, string password)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                _logger.LogInformation($"admin@test.pl;{DateTime.Now};dodanie hasła jednorazowego dla {userId};bład dodania hasła jednarozowego");
+                throw new NotFoundException("Użytkownik nie istnieje");
+            }
+
+            user.OneTimePassword = password;
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

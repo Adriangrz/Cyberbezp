@@ -187,13 +187,23 @@ namespace CyberbezpApi.Services
                 throw new UnauthorizedException("Użytkownik jest zablokowany");
             }
 
-
-            if (!await _userManager.CheckPasswordAsync(user, loginCredentials.Password))
+            if (loginDto.OneTimePassword is not null && user.OneTimePassword is not null)
             {
-                user.AccessFailedCount += 1;
-                _logger.LogInformation($"{loginDto.Email};{DateTime.Now};logowanie;błąd logowania");
+                if (!(loginDto.OneTimePassword == user.OneTimePassword))
+                    throw new UnauthorizedException("Nie poprawne hasło jednorazowe");
+                user.OneTimePassword = null;
                 await _dbContext.SaveChangesAsync();
-                throw new UnauthorizedException("Login lub Hasło niepoprawny");
+            }
+            else
+            {
+
+                if (!await _userManager.CheckPasswordAsync(user, loginCredentials.Password))
+                {
+                    user.AccessFailedCount += 1;
+                    _logger.LogInformation($"{loginDto.Email};{DateTime.Now};logowanie;błąd logowania");
+                    await _dbContext.SaveChangesAsync();
+                    throw new UnauthorizedException("Login lub Hasło niepoprawny");
+                }
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);

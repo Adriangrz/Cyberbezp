@@ -53,6 +53,17 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="oneTimePassword">Jednorazowe hasło</label>
+        <input
+          type="text"
+          class="form-control"
+          name="oneTimePassword"
+          [(ngModel)]="form.oneTimePassword"
+          required
+          #oneTimePassword="ngModel"
+        />
+      </div>
+      <div class="form-group">
         <button class="btn btn-primary btn-block">
           Logowanie
         </button>

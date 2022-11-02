@@ -9,5 +9,6 @@ namespace CyberbezpApi.Services.Interfaces
         Task<List<UserDto>> GetUsers();
         Task DeleteUser(string userId);
         Task BlockUser(string userId, bool enabled);
+        Task SetOneTimePasswordAsync(string userId, string password);
     }
 }

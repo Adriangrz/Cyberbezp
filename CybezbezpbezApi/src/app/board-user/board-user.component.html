@@ -20,6 +20,7 @@
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="blockUser(user.id)">Blokuj</button>
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="changeUserName(user.id)">Zmień nazwę</button>
         <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="password(user.id)">Zmień hasło</button>
+        <button *ngIf="user.email !== 'admin@test.pl'" type="button" class="m-1 btn btn-primary" (click)="generatePassword(user.id)">Ustaw hasło jednorazowe</button>
       </li>
     </ul>
 </div>

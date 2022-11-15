@@ -33,7 +33,7 @@ export class RegisterComponent {
   public size: 'compact' | 'normal' = 'normal'
   public lang = 'en';
   public type: 'image' | 'audio' = 'image'
-  siteKey = "6Le83QojAAAAAPSORRCgKko6t7-Rfy3ZCfHiFGCj";
+  siteKey = "6LcxKwsjAAAAAN7Bcq4186D52Kr0iLZY0onjV9eB";
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
     this.aFormGroup = this.formBuilder.group({

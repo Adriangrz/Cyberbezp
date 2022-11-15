@@ -70,6 +70,22 @@
           <div *ngIf="password.errors['containsUpperLetter']">Hasło musi zawierać co najmniej 1 dużą literę!</div>
         </div>
       </div>
+      <form [formGroup]="aFormGroup">
+        <ngx-recaptcha2 #captchaElem
+          [siteKey]="siteKey"
+          (reset)="handleReset()"
+          (expire)="handleExpire()"
+          (error)="handleError()"
+          (load)="handleLoad()"
+          (success)="handleSuccess($event)"
+          [useGlobalDomain]="false"
+          [size]="size"
+          [hl]="lang"
+          [theme]="theme"
+          [type]="type"
+          formControlName="recaptcha">
+        </ngx-recaptcha2>
+      </form>
       <div class="form-group">
         <button class="btn btn-primary btn-block">Rejestracja</button>
       </div>

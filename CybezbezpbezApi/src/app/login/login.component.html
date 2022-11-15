@@ -53,12 +53,16 @@
         </div>
       </div>
 
-
-      <div class="form-group">
-        <button class="btn btn-primary btn-block">
-          Logowanie
-        </button>
-      </div>
+       <div [hidden]="captcha">
+        <re-captcha (resolved)="resolved($event)" siteKey="6Le83QojAAAAAPSORRCgKko6t7-Rfy3ZCfHiFGCj"></re-captcha>
+       </div>
+       <div [hidden]="!captcha">
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">
+            Logowanie
+          </button>
+        </div>
+       </div>
       <div class="form-group">
         <div
           class="alert alert-danger"

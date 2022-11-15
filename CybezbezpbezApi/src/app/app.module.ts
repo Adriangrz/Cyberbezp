@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,8 @@ import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { LogInfoComponent } from './log-info/log-info.component';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,9 @@ import { LogInfoComponent } from './log-info/log-info.component';
     NzTableModule,
     NzButtonModule,
     NzInputModule,
+    RecaptchaModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule,
 
   ],
   providers: [authInterceptorProviders],

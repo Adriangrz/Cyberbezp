@@ -19,15 +19,23 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  captcha: string;
 
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) {
+    this.captcha = '';
+   }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
     }
+  }
+
+  resolved(captchaResponse: string) {
+    this.captcha = captchaResponse;
+    console.log('resolved captcha with response: ' + this.captcha);
   }
 
   onSubmit(): void {

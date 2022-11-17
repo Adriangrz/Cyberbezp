@@ -113,6 +113,7 @@ builder.Services.AddSingleton<SettingsService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+app.UseResponseCaching();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

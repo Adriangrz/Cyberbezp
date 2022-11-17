@@ -159,4 +159,9 @@ export class AuthService {
   private removeToken() {
     localStorage.removeItem(this.JWT_TOKEN);
   }
+  getFiles() {
+   return this.http
+    .get<string[]>('/api/File', {params: {filename: "private-file.txt"}, responseType: 'text' as 'json'})
+      .pipe(catchError(this.handleError));
+  }
 }

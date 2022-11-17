@@ -44,6 +44,7 @@ namespace CyberbezpApi.Services
             var userData = _mapper.Map<User>(registrationDto);
             userData.LastPasswordChangedDate = DateTime.Now;
             userData.IsFirstLogin = true;
+            userData.FirstAccess = DateTime.Now;
 
             if (await _userManager.FindByEmailAsync(userData.Email) is not null)
             {

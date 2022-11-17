@@ -1,6 +1,11 @@
-﻿using CyberbezpApi.Models;
+﻿using CyberbezpApi.Database;
+using CyberbezpApi.Database.Entities;
+using CyberbezpApi.Exceptions;
+using CyberbezpApi.Models;
+using CyberbezpApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -10,13 +15,32 @@ namespace CyberbezpApi.Controllers
     [ApiController]
     public class KeyController : ControllerBase
     {
-        private static int Mod(int a, int b)
+		private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IUserContextService _userContextService;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<User> _userManager;
+
+		public KeyController(ApplicationDbContext applicationDbContext, IUserContextService userContextService, ApplicationDbContext dbContext, UserManager<User> userManager)
+		{
+			_applicationDbContext = applicationDbContext;
+			_userContextService = userContextService;
+			_dbContext = dbContext;
+			_userManager = userManager;
+		}
+		private static int Mod(int a, int b)
         {
             return (a % b + b) % b;
         }
-        [HttpPost()]
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<string>> CreateKey(string input, string key)
 		{
+			var dbKey = new Key()
+			{
+				value = input
+			};
+			_applicationDbContext.Keys.Add(dbKey);
+			_applicationDbContext.SaveChanges();
 			var unlock = false;
 			for (int i = 0; i < key.Length; ++i)
 				if (!char.IsLetter(key[i]))
@@ -48,8 +72,7 @@ namespace CyberbezpApi.Controllers
 		}
 
 		[HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<string>> Unlock(string input, string key)
+		public async Task<ActionResult> Unlock(string input, string key)
 		{
 			var unlock = true;
 			for (int i = 0; i < key.Length; ++i)
@@ -77,8 +100,19 @@ namespace CyberbezpApi.Controllers
 					++nonAlphaCharCount;
 				}
 			}
-
-			return output;
+			var dbKey = _applicationDbContext.Keys.FirstOrDefault(k => k.value == output);
+			if (dbKey is not null)
+			{
+                var user = await _userManager.FindByIdAsync(_userContextService.GetUserId);
+				user.IsFileBlock = false;
+				var date = new DateTime(user.FirstAccess.Year, user.FirstAccess.Month, 1);
+				date = date.AddMonths(1);
+				user.FirstAccess = date;
+				_dbContext.SaveChanges();
+                return Ok();
+			}
+			else
+				throw new UnauthorizedException("Zły klucz");
 		}
     }
 }

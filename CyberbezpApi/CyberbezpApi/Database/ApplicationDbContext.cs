@@ -17,6 +17,8 @@ namespace CyberbezpApi.Database
         {
         }
 
+        public DbSet<Key> Keys { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

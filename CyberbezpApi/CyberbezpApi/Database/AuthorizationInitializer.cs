@@ -39,6 +39,8 @@ namespace CyberbezpApi.Database
                 UserName = "ADMIN",
                 Email = "admin@test.pl",
                 IsFirstLogin = false,
+                FirstAccess = DateTime.Now.AddMonths(-1),
+                IsFileBlock = false,
             };
 
             if (await _userManager.FindByNameAsync(admin.UserName) == null)
